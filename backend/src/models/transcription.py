@@ -3,6 +3,7 @@ from sqlalchemy.dialects.sqlite import INTEGER
 from pydantic import BaseModel
 from datetime import datetime
 from src.database import Base, engine
+from typing import List, Optional
 
 class Transcription(Base):
     __tablename__ = "transcriptions"
@@ -23,14 +24,13 @@ class Transcription(Base):
         }
 
 class TranscriptionBase(BaseModel):
-    file_name: str
+    file_name: Optional[str]
     transcription: str
 
 class TranscriptionCreate(TranscriptionBase):
     pass
 
 class TranscriptionRead(TranscriptionBase):
-    id: int  
     upload_path: str
     created: datetime
 

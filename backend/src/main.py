@@ -7,7 +7,7 @@ from src.models.transcription import Transcription
 app = FastAPI()
 
 app.include_router(health_router, prefix="/health", tags=["Health"])
-app.include_router(transcript_router, prefix="/transcribe", tags=["Transcribe"])
+app.include_router(transcript_router, tags=["Transcribe"])
 
 init_db()
 
