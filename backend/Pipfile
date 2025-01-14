@@ -15,6 +15,7 @@ aiofiles = "*"
 ffmpeg-python = "*"
 pytest = "*"
 httpx = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 

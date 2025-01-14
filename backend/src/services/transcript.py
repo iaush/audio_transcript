@@ -10,13 +10,14 @@ from datetime import datetime, timedelta
 import aiofiles
 import uuid
 from typing import List
+from fastapi import FastAPI, UploadFile, File, Depends
+from fastapi.staticfiles import StaticFiles
 
 
 transcriber = pipeline("automatic-speech-recognition", model="openai/whisper-tiny")
 
 UPLOAD_DIR = Path("src/uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-
 
 
 def file_to_text(file_content):
