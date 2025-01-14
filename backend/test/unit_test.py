@@ -4,7 +4,7 @@ import pytest
 
 def test_upload_audio_file(client):
     with open("test/Test1.mp3", "rb") as audio_file:
-        response = client.post("/transcribe", files={"file": ("test.mp3", audio_file, "audio/mp3")})
+        response = client.post("/transcribe", files={"file": ("unitTestingData.mp3", audio_file, "audio/mp3")})
         assert response.status_code == 200
         assert "transcription" in response.json()
 

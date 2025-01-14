@@ -21,7 +21,6 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 def file_to_text(file_content):
     transcription = transcriber(file_content)
-    print('Transcription', transcription)
     return transcription['text']
 
 async def transcribe_and_save(file: UploadFile = File(...), db: Session = Depends(get_db)):
