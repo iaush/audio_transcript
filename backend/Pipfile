@@ -13,6 +13,8 @@ torchaudio = "*"
 sqlalchemy = "*"
 aiofiles = "*"
 ffmpeg-python = "*"
+pytest = "*"
+httpx = "*"
 
 [dev-packages]
 

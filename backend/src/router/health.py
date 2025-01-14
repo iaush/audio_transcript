@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 router = APIRouter()
 
-@router.get("/health")
+@router.get("/status")
 def health():
     return {"status": "ok"}
 
