@@ -26,7 +26,7 @@ const Card = ({
   searchTerm,
   setReload
 }: CardProps) => {
-  let [date, timing] = subtitle.split("T");
+  let [date, timing] = subtitle.includes("T") ? subtitle.split("T") : [subtitle, ""];
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
 
@@ -67,9 +67,6 @@ const Card = ({
             timing.split(".")[0]
           })`}</div>
         </div>
-        {/* <div>
-          <audio controls src={`${backend}/${upload_path}`} />
-        </div> */}
         <div>
           <button className="card-button" onClick={() => setOpen(!open)}>
             {open ? `Close` : `View Details`}
