@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Card.css";
+import api from "../services/api";
 
 interface CardProps {
   header: string;
@@ -7,6 +8,7 @@ interface CardProps {
   upload_path: string;
   text: string;
   searchTerm: string;
+  setReload: ()=>void;
 }
 
 interface HighlightProps {
@@ -22,9 +24,11 @@ const Card = ({
   upload_path,
   text,
   searchTerm,
+  setReload
 }: CardProps) => {
   let [date, timing] = subtitle.split("T");
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const TextHighlighter = ({ text, searchTerm }: HighlightProps) => {
     const highlightedText = text
@@ -40,11 +44,19 @@ const Card = ({
       );
 
     return (
-      <div className="scroll-box">
+      <div>
         <p>{highlightedText}</p>
       </div>
     );
   };
+
+  const handleDelete = async (upload_path: string) => {
+    api.delete(`/transcription`, {params: { upload_path }})
+    .then((response) => {
+      setReload()
+    })
+    .catch((error) => setError(error.message));
+  }
 
   return (
     <div className="card-container">
@@ -62,6 +74,7 @@ const Card = ({
           <button className="card-button" onClick={() => setOpen(!open)}>
             {open ? `Close` : `View Details`}
           </button>
+          <button className="card-button" style={{backgroundColor : 'red'}} onClick={()=>handleDelete(upload_path)}>Delete</button>
         </div>
       </div>
 

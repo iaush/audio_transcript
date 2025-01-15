@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 
 transcriber = pipeline("automatic-speech-recognition", model="openai/whisper-tiny")
 
-UPLOAD_DIR = Path("src/uploads")
+UPLOAD_DIR = Path(os.path.join("src", "uploads"))
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -27,7 +27,7 @@ def file_to_text(file_content):
 async def transcribe_and_save(file_name: str, file: UploadFile = File(...), db: Session = Depends(get_db)):
     unique_id = str(uuid.uuid4())
     file_extension = Path(file.filename).suffix
-    file_path = UPLOAD_DIR / f"{unique_id}{file_extension}"
+    file_path = Path(os.path.join(UPLOAD_DIR, f"{unique_id}{file_extension}"))
 
     # Save the uploaded file locally to play it back
     try:
@@ -90,5 +90,19 @@ async def search_transcription(search_term: str, db: Session = Depends(get_db)) 
         print(f"Error: {e}")
         raise e
                 
+async def delete_transcription_path(upload_path: str, db: Session = Depends(get_db)):
+    try:
+        query = select(Transcription).where(Transcription.upload_path.contains(upload_path))
+        transcription = db.execute(query).scalar_one()
+        db.delete(transcription)
+        db.commit()
 
+        # Delete the file from the filesystem
+        os.remove(upload_path)
+        print(f"File deleted at: {upload_path}")
+
+        return {"message": "Transcription deleted"}
+    except Exception as e:
+        print(f"Error: {e}")
+        raise e
 

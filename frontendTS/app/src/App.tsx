@@ -6,6 +6,7 @@ import api from "./services/api";
 import { Button } from "@mui/material";
 import { Debounce } from "./services/ultils";
 import Upload from "./components/Upload";
+import Health from "./components/Health";
 
 interface Item {
   file_name: string;
@@ -59,6 +60,7 @@ function App() {
         upload_path={item.upload_path}
         text={item.transcription}
         searchTerm={searchTerm}
+        setReload={() => setReload(!reload)}
       />
     );
   });
@@ -66,6 +68,7 @@ function App() {
     <>
       <div className="App">
         <div className="App-body">
+          <Health />
           <div>
             {open && (
               <Upload

@@ -3,7 +3,7 @@ from src.database import get_db
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, UploadFile, File, Form
-from src.services.transcript import transcribe_and_save, transcription_info, search_transcription
+from src.services.transcript import transcribe_and_save, transcription_info, search_transcription, delete_transcription_path
 from fastapi import HTTPException
 router = APIRouter()
 
@@ -30,6 +30,14 @@ async def get_transcriptions(db: Session = Depends(get_db)):
 async def search_transcriptions(search_term: str, db: Session = Depends(get_db)):
     try:
         res = await search_transcription(search_term, db)
+        return res
+    except Exception as e:
+        return {"error": str(e)}
+    
+@router.delete("/transcription", description="Delete transcription given id")
+async def delete_transcription(upload_path: str, db: Session = Depends(get_db)):
+    try:
+        res = await delete_transcription_path(upload_path, db)
         return res
     except Exception as e:
         return {"error": str(e)}
