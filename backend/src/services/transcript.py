@@ -65,7 +65,9 @@ async def transcription_info(db: Session = Depends(get_db)) -> List[Transcriptio
     try:
         query = select(Transcription)
         transcriptions = db.execute(query).scalars().all()
-        return [{"transcription": transcription.transcription,
+        return [{
+                "file_name": transcription.file_name,
+                "transcription": transcription.transcription,
                 "upload_path": transcription.upload_path,
                 "created": transcription.created}
                 for transcription in transcriptions]
@@ -78,7 +80,9 @@ async def search_transcription(search_term: str, db: Session = Depends(get_db)) 
         search_term = search_term.strip()
         query = select(Transcription).where(Transcription.transcription.contains(search_term))
         transcriptions = db.execute(query).scalars().all()
-        return [{"transcription": transcription.transcription,
+        return [{
+                "file_name": transcription.file_name,
+                "transcription": transcription.transcription,
                 "upload_path": transcription.upload_path,
                 "created": transcription.created}
                 for transcription in transcriptions]

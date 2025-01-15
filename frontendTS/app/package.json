@@ -1,0 +1,54 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.0",
+    "@mui/styled-engine-sc": "^6.4.0",
+    "@sinclair/typebox": "^0.34.13",
+    "cra-template-typescript": "1.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-scripts": "^3.0.1",
+    "styled-components": "^6.1.14"
+  },
+  "scripts": {
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/axios": "^0.14.4",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "typescript": "^5.7.3",
+    "web-vitals": "^4.2.4"
+  }
+}

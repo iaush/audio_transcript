@@ -16,36 +16,51 @@
 .App-header {
   margin: 30px;
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
   width: 100%;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .App-link {
   color: #61dafb;
 }
 
-
-
-.App-body{
+.App-body {
   display: flex;
   flex-direction: column;
-  
+
   align-items: center;
   font-size: calc(10px + 2vmin);
-  background-color:burlywood;
-  background-image: linear-gradient(to bottom, #ddd 1px, transparent 1px), 
-                    linear-gradient(to right, #ddd 1px, transparent 1px);
+  background-color: burlywood;
+  background-image: linear-gradient(to bottom, #ddd 1px, transparent 1px),
+    linear-gradient(to right, #ddd 1px, transparent 1px);
   background-size: 40px 40px; /* Adjust the size of the grid */
   width: 100vw;
   height: 100vh;
 }
 
-.upload-button{
+.upload-button {
   padding: 20px;
   font-size: 25px;
   width: 200px;
+}
+
+.App-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  overflow-y: scroll;
+}
+
+.upload-button {
+  width: 150px;
+  padding: 20px 20px;
+  font-size: 16px;
+  background-color: #61dafb;
+  border-radius: 25px;
 }

@@ -1,0 +1,81 @@
+.card {
+  margin: 10px;
+  padding: 10px;
+  /* border: 1px solid #757171; */
+  /* border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #dee8ce;
+  width: 80%; */
+  /* border-radius: 15px; */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header {
+  font-size: extra-large;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  font-size: small;
+  text-align: left;
+}
+
+.card-button {
+  padding: 10px 20px;
+  font-size: large;
+  background-color: #fb9961;
+  border-radius: 15px;
+}
+
+.card-container {
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #dee8ce;
+  width: 80%;
+  border-radius: 15px;
+  border: 1px solid #757171;
+  margin-bottom: 20px;
+}
+
+.audio-container {
+  width: 30%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 20px 20px;
+  border: 1px solid #a59e9e;
+}
+
+.scroll-box {
+  width: 80%;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
+
+  background-color: #f9f9f9;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.scroll-box::-webkit-scrollbar {
+  width: 20px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.scroll-box::-webkit-scrollbar-thumb:hover {
+  background-color: #1633d9;
+}
+
+.highlight {
+  background-color: #cedb54;
+  opacity: 50%;
+}
