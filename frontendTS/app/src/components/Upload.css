@@ -39,6 +39,7 @@
 
 .upload-form {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: auto;
@@ -50,7 +51,7 @@
   font-size: 14px;
   font-weight: bold;
   color: #333;
-  margin-bottom: 5px;
+  margin: 10px;
 }
 
 .upload-input {
@@ -99,4 +100,11 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.input-divs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

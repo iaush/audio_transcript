@@ -24,7 +24,7 @@ def file_to_text(file_content):
     transcription = transcriber(file_content)
     return transcription['text']
 
-async def transcribe_and_save(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def transcribe_and_save(file_name: str, file: UploadFile = File(...), db: Session = Depends(get_db)):
     unique_id = str(uuid.uuid4())
     file_extension = Path(file.filename).suffix
     file_path = UPLOAD_DIR / f"{unique_id}{file_extension}"
@@ -39,7 +39,7 @@ async def transcribe_and_save(file: UploadFile = File(...), db: Session = Depend
 
         transcription_text = file_to_text(data)
         transcript = Transcription(
-            file_name=file.filename,
+            file_name=file_name,
             upload_path=str(file_path),
             transcription=transcription_text,
             created=datetime.utcnow()+timedelta(hours=8)  

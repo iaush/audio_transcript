@@ -15,6 +15,8 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
     const file = (document.getElementById("file") as HTMLInputElement)
       .files?.[0];
 
+    const name = (document.getElementById("name") as HTMLInputElement).value;
+
     if (!file) {
       setError("Please select a file to upload");
       return;
@@ -22,7 +24,7 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
 
     const formData = new FormData();
     formData.append("file", file);
-    // const name = (document.getElementById("name") as HTMLInputElement).value;
+    formData.append("file_name", name);
     setError(""); // Clear any previous errors
     setLoading(true); // Set loading to true before sending the request
 
@@ -50,21 +52,25 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
     <div className="upload-modal">
       <div className="upload-modal-content">
         <form className="upload-form">
-          <label htmlFor="file" className="upload-label">
-            Choose a file :
-          </label>
-          <input
-            type="file"
-            id="file"
-            name="file"
-            accept="audio/*"
-            className="upload-input"
-            required
-          />
-          {/* <label htmlFor="name" className="upload-label">
-            Filename :
-          </label>
-          <input type="text" id="name" className="upload-input" /> */}
+          <div className="input-divs">
+            <label htmlFor="file" className="upload-label">
+              Choose a file :
+            </label>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="audio/*"
+              className="upload-input"
+              required
+            />
+          </div>
+          <div className="input-divs">
+            <label htmlFor="name" className="upload-label">
+              Filename :
+            </label>
+            <input type="text" id="name" className="upload-input" />
+          </div>
         </form>
         <button
           className="close-button"

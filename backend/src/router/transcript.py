@@ -2,18 +2,18 @@
 from src.database import get_db
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Form
 from src.services.transcript import transcribe_and_save, transcription_info, search_transcription
 from fastapi import HTTPException
 router = APIRouter()
 
-@router.post("/transcribe", description="Upload a audio file")
-async def upload_audio(file: UploadFile = File(...), db: Session = Depends(get_db)):
+@router.post("/transcribe", description="Upload an audio file")
+async def upload_audio(file_name: str = Form(...), file: UploadFile = File(...), db: Session = Depends(get_db)):
     if file.content_type not in ["audio/wav", "audio/mp3", "audio/mpeg"]:
         raise HTTPException(status_code=400, detail="Unsupported file type.")
     
     try:
-        res = await transcribe_and_save(file, db)
+        res = await transcribe_and_save(file_name,file , db)
         return res
     except Exception as e:
         return {"error": str(e)}
