@@ -5,6 +5,7 @@ import Card from "./components/Card";
 import api from "./services/api";
 import { Button } from "@mui/material";
 import { Debounce } from "./services/ultils";
+import Upload from "./components/Upload";
 
 interface Item {
   file_name: string;
@@ -15,12 +16,14 @@ interface Item {
 function App() {
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [open, setOpen] = useState(false);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     if (searchTerm == "") {
       api.get("/transcriptions").then((response) => setItems(response.data));
     }
-  }, [searchTerm]);
+  }, [searchTerm, reload]);
 
   // useEffect(() => {
   //   if (searchTerm !== "") {
@@ -48,8 +51,6 @@ function App() {
     }
   }, [searchTerm]);
 
-  console.log(items);
-
   let cardItems = items.map((item: Item) => {
     return (
       <Card
@@ -62,26 +63,27 @@ function App() {
     );
   });
   return (
-    <div className="App">
-      <div className="App-body">
-        <div className="App-header">
-          <SearchBar onSearch={setSearchTerm} />
-          <button
-            style={{
-              width: "150px",
-              padding: "20px 20px",
-              fontSize: "16px",
-              backgroundColor: "#61dafb",
-              borderRadius: "25px",
-            }}
-          >
-            Upload
-          </button>
+    <>
+      <div className="App">
+        <div className="App-body">
+          <div>
+            {open && (
+              <Upload
+                onClose={() => setOpen(false)}
+                setReload={() => setReload(!reload)}
+              />
+            )}
+          </div>
+          <div className="App-header">
+            <SearchBar onSearch={setSearchTerm} />
+            <button className="upload-button" onClick={() => setOpen(!open)}>
+              Upload
+            </button>
+          </div>
+          <div className="App-content">{cardItems}</div>
         </div>
-
-        <div className="App-content">{cardItems}</div>
       </div>
-    </div>
+    </>
   );
 }
 
