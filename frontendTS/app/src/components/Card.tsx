@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Card.css";
 import api from "../services/api";
-
+import config from "../config";
 interface CardProps {
   header: string;
   subtitle: string;
@@ -16,7 +16,7 @@ interface HighlightProps {
   searchTerm: string;
 }
 
-let backend = "http://localhost:8000";
+let backend = config.backendURL;
 
 const Card = ({
   header,
@@ -30,25 +30,25 @@ const Card = ({
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
 
-  const TextHighlighter = ({ text, searchTerm }: HighlightProps) => {
-    const highlightedText = text
-      .split(new RegExp(`(${searchTerm})`, "gi"))
-      .map((part, index) =>
-        part.toLowerCase() === searchTerm.toLowerCase() ? (
-          <span key={index} className="highlight">
-            {part}
-          </span>
-        ) : (
-          part
-        )
-      );
+  // const TextHighlighter = ({ text, searchTerm }: HighlightProps) => {
+  //   const highlightedText = text
+  //     .split(new RegExp(`(${searchTerm})`, "gi"))
+  //     .map((part, index) =>
+  //       part.toLowerCase() === searchTerm.toLowerCase() ? (
+  //         <span key={index} className="highlight">
+  //           {part}
+  //         </span>
+  //       ) : (
+  //         part
+  //       )
+  //     );
 
-    return (
-      <div>
-        <p>{highlightedText}</p>
-      </div>
-    );
-  };
+  //   return (
+  //     <div>
+  //       <p>{highlightedText}</p>
+  //     </div>
+  //   );
+  // };
 
   const handleDelete = async (upload_path: string) => {
     api.delete(`/transcription`, {params: { upload_path }})

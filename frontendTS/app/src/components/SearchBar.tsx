@@ -29,7 +29,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         fontFamily: "Arial",
       }}
       type="text"
-      placeholder="Search for keywords to find related transcriptions"
+      placeholder="Search for file name"
       value={searchTerm}
       onChange={handleSearch}
     />

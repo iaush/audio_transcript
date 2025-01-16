@@ -6,19 +6,19 @@ def test_upload_audio_file(client):
     with open("test/Test1.mp3", "rb") as audio_file:
         response = client.post(
             "/transcribe",
-            files={"file": ("unitTestingData.mp3", audio_file, "audio/mpeg")},
-            data={"file_name": "unitTestingData"},
+            files={"files": ("unitTestingData.mp3", audio_file, "audio/mpeg")},
+            data={"file_names": "unitTestingData"},
         )
         assert response.status_code == 200
-        assert "transcription" in response.json()
+        assert "transcription" in response.json()[0]
 
 def test_upload_audio_file_invalid(client):
     text_data = b"This is not audio"
     
     response = client.post(
         "/transcribe",
-        files={"file": ("test.txt", text_data, "text/plain")},
-        data={"file_name": "unitTestingData"},
+        files={"files": ("test.txt", text_data, "text/plain")},
+        data={"file_names": "unitTestingData"},
     )
     assert response.status_code == 400
     assert response.json()["detail"] == "Unsupported file type."

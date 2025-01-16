@@ -32,8 +32,8 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
       formData.append("file_names", name);
     }
 
-    setError(""); // Clear any previous errors
-    setLoading(true); // Set loading to true before sending the request
+    setError(""); 
+    setLoading(true); 
 
     api
       .post("/transcribe", formData, {
@@ -52,7 +52,7 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
         setError(error.message);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false after the request is complete
+        setLoading(false); 
       });
   };
   return (
