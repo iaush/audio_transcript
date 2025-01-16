@@ -12,19 +12,26 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    const file = (document.getElementById("file") as HTMLInputElement)
-      .files?.[0];
+    const files = (document.getElementById("file") as HTMLInputElement).files;
 
     const name = (document.getElementById("name") as HTMLInputElement).value;
 
-    if (!file) {
+    if (!files) {
       setError("Please select a file to upload");
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("file_name", name);
+    if (files.length > 1) {
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+        formData.append("file_names", `${name} (${files[i].name})`);
+      }
+    } else {
+      formData.append("files", files[0]);
+      formData.append("file_names", name);
+    }
+
     setError(""); // Clear any previous errors
     setLoading(true); // Set loading to true before sending the request
 
