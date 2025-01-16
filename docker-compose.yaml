@@ -1,0 +1,26 @@
+version: '1.0'
+
+services:
+  frontend:
+    build:
+      context: ./frontendTS/app
+      dockerfile: dockerfile
+    ports:
+      - "8080:80"  
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    ports:
+      - "8000:8000"  
+    environment:
+      - CORS_ORIGINS=http://localhost:8080  
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

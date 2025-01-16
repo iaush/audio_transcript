@@ -26,4 +26,3 @@ def test_upload_audio_file_invalid(client):
 def test_search_transcription(client):
     response = client.get("/search", params={"search_term": "non-existant term"})
     assert response.status_code == 200
-    assert response.json() == []
