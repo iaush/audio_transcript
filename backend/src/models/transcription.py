@@ -16,7 +16,7 @@ class Transcription(Base):
     upload_path = Column(String(255), nullable=True)
     created = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    fts_entry = relationship("TranscriptionFTS", back_populates="transcription", primaryjoin="Transcription.id==TranscriptionFTS.rowid", cascade="all, delete-orphan")
+    # fts_entry = relationship("TranscriptionFTS", back_populates="transcriptions", primaryjoin="Transcription.id==TranscriptionFTS.rowid", cascade="all, delete-orphan")
 
     def to_dict(self):
         return{
@@ -27,14 +27,14 @@ class Transcription(Base):
             "created": self.created
         }
     
-class TranscriptionFTS(Base):
-    __tablename__ = "transcriptions_fts"
+# class TranscriptionFTS(Base):
+#     __tablename__ = "transcriptions_fts"
 
-    rowid = Column(Integer, ForeignKey("transcriptions.id"), primary_key=True)
-    file_name = Column(String)
-    transcription = Column(Text)
+#     rowid = Column(Integer, ForeignKey("transcriptions.id"), primary_key=True)
+#     file_name = Column(String)
+#     transcription = Column(Text)
 
-    transcription = relationship("Transcription", back_populates="fts_entry", primaryjoin="Transcription.id==TranscriptionFTS.rowid")
+#     transcriptions = relationship("Transcription", back_populates="fts_entry", primaryjoin="Transcription.id==TranscriptionFTS.rowid")
 
 class TranscriptionBase(BaseModel):
     file_name: Optional[str]

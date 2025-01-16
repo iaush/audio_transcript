@@ -29,7 +29,6 @@ def init_db():
         conn.execute(text("""
         CREATE VIRTUAL TABLE IF NOT EXISTS transcriptions_fts USING fts5(
             file_name,
-            transcription,
             content='transcriptions',
             content_rowid='id'
         );
@@ -38,8 +37,8 @@ def init_db():
         conn.execute(text("""
         CREATE TRIGGER IF NOT EXISTS transcriptions_ai AFTER INSERT ON transcriptions
         BEGIN
-            INSERT INTO transcriptions_fts(rowid, file_name, transcription)
-            VALUES (new.id, new.file_name, new.transcription);
+            INSERT INTO transcriptions_fts(rowid, file_name)
+            VALUES (new.id, new.file_name);
         END;
         """))
 
@@ -47,8 +46,7 @@ def init_db():
         CREATE TRIGGER IF NOT EXISTS transcriptions_au AFTER UPDATE ON transcriptions
         BEGIN
             UPDATE transcriptions_fts
-            SET file_name = new.file_name,
-                transcription = new.transcription
+            SET file_name = new.file_name
             WHERE rowid = new.id;
         END;
         """))

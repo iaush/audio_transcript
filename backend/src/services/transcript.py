@@ -1,5 +1,5 @@
 import os
-from src.models.transcription import Transcription, TranscriptionRead, TranscriptionFTS
+from src.models.transcription import Transcription, TranscriptionRead
 from src.database import get_db
 from transformers import pipeline
 from fastapi import UploadFile, File, Depends
@@ -90,15 +90,51 @@ async def search_transcription(search_term: str, db: Session = Depends(get_db)) 
         print(f"Error: {e}")
         raise e
     
-async def search_transcriptions_fts(search_term: str, db: Session):
-    query = (
-        select(Transcription)
-        .join(TranscriptionFTS, Transcription.id == TranscriptionFTS.rowid)
-        .filter(TranscriptionFTS.file_name.match(search_term)) 
-    )
-    results = db.execute(query).scalars().all()
+# async def search_transcriptions_fts(search_term: str, db: Session):
+#     try:
+#         query = (
+#         select(Transcription)
+#         .join(TranscriptionFTS, Transcription.id == TranscriptionFTS.rowid)
+#         .filter(TranscriptionFTS.file_name.match(search_term)) 
+#     )
+#         results = db.execute(query).scalars().all()
     
-    return [row.to_dict() for row in results]
+#         return [row.to_dict() for row in results]
+#     except Exception as e:
+#         print(f"Error: {e}")
+#         raise e
+    
+async def search_transcriptions_fts(search_term: str, db: Session):
+    search_term = ''.join(e for e in search_term if e.isalnum() or e.isspace())
+    try:
+        query = """
+        SELECT transcriptions.id, transcriptions.file_name, transcriptions.transcription, transcriptions.upload_path, transcriptions.created
+        FROM transcriptions
+        JOIN transcriptions_fts ON transcriptions.id = transcriptions_fts.rowid
+        WHERE transcriptions_fts MATCH :search_term;
+        """
+        results = db.execute(text(query), {"search_term": search_term}).all()
+        print(f"Results: {results}")
+        transcription_instances = []
+        for row in results:
+            transcription = Transcription(
+                id=row[0],
+                file_name=row[1],
+                transcription=row[2],
+                upload_path=row[3],
+                created=row[4]
+            )
+            transcription_instances.append(transcription)
+
+        return [{
+                "file_name": transcription.file_name,
+                "transcription": transcription.transcription,
+                "upload_path": transcription.upload_path,
+                "created": transcription.created}
+                for transcription in transcription_instances]
+    except Exception as e:
+        print(f"Error: {e}")
+        raise e
                 
 async def delete_transcription_path(upload_path: str, db: Session = Depends(get_db)):
     try:

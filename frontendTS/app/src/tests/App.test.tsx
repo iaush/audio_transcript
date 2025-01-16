@@ -18,6 +18,6 @@ test('renders health status component', () => {
 
 test('renders search bar component', () => {
   render(<App />)
-  const searchInput = screen.getByPlaceholderText(/Search for keywords to find related transcriptions/i)
+  const searchInput = screen.getByPlaceholderText(/Search for file name/i)
   expect(searchInput).toBeInTheDocument()
 })

@@ -8,7 +8,7 @@ interface CardProps {
   upload_path: string;
   text: string;
   searchTerm: string;
-  setReload: ()=>void;
+  setReload: any
 }
 
 interface HighlightProps {
@@ -26,7 +26,7 @@ const Card = ({
   searchTerm,
   setReload
 }: CardProps) => {
-  let [date, timing] = subtitle.includes("T") ? subtitle.split("T") : [subtitle, ""];
+  
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
 
@@ -53,7 +53,7 @@ const Card = ({
   const handleDelete = async (upload_path: string) => {
     api.delete(`/transcription`, {params: { upload_path }})
     .then((response) => {
-      setReload()
+      setReload((prev:boolean)=>!prev)
     })
     .catch((error) => setError(error.message));
   }
@@ -63,9 +63,7 @@ const Card = ({
       <div className="card">
         <div className="card-content">
           <div className="card-header">{header}</div>
-          <div className="card-body">{`Upload Date: ${date} (${
-            timing.split(".")[0]
-          })`}</div>
+          <div className="card-body">{`Upload Date: ${new Date(subtitle).toLocaleString()})`}</div>
         </div>
         <div>
           <button className="card-button" onClick={() => setOpen(!open)}>

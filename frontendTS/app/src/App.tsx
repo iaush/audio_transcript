@@ -14,13 +14,15 @@ interface Item {
   upload_path: string;
   transcription: string;
 }
+
 function App() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [reload, setReload] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const debounceDelay = 500;
+
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -34,7 +36,10 @@ function App() {
 
   useEffect(() => {
     if (debouncedSearchTerm === "") {
-      api.get("/transcriptions").then((response) => setItems(response.data));
+      api.get("/transcriptions").then((response) => {
+        console.log(response.data);
+        setItems(response.data)
+      });
     }
   }, [debouncedSearchTerm, reload]);
 
@@ -42,9 +47,13 @@ function App() {
     if (debouncedSearchTerm !== "") {
       api
         .get("/search", { params: { search_term: debouncedSearchTerm } })
-        .then((response) => setItems(response.data));
+        .then((response) => {
+          console.log(response.data);
+          setItems(response.data)}).catch((error) =>
+            console.error("Error fetching search results:", error)
+          );
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, reload]);
 
   // useEffect(() => {
   //   if (searchTerm == "") {
@@ -78,7 +87,7 @@ function App() {
   //   }
   // }, [searchTerm]);
 
-  let cardItems = items.map((item: Item) => {
+  let cardItems = items?.map((item: Item) => {
     return (
       <Card
         header={item.file_name}
@@ -86,10 +95,12 @@ function App() {
         upload_path={item.upload_path}
         text={item.transcription}
         searchTerm={searchTerm}
-        setReload={() => setReload(!reload)}
+        setReload={setReload}
       />
     );
   });
+
+
   return (
     <>
       <div className="App">
@@ -109,7 +120,7 @@ function App() {
               Upload
             </button>
           </div>
-          <div className="App-content">{cardItems}</div>
+          <div className="App-content">{cardItems.length>0?cardItems:<p>No results found</p>}</div>
         </div>
       </div>
     </>
