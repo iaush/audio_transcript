@@ -1,21 +1,32 @@
-FROM python:3.12-slim
+# Use PyTorch image with CUDA support
+FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime
 
-# Install FFmpeg
-RUN apt-get update && apt-get install -y ffmpeg
 
-# Set the working directory
 WORKDIR /app
+
+# Install FFmpeg and other dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    python3-pip \
+    python3-dev \
+    python3-setuptools \
+    curl \
+    ca-certificates \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
 
 # Copy Pipenv files
-COPY Pipfile Pipfile.lock ./
+COPY Pipfile Pipfile.lock ./ 
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install pipenv && pipenv install --system --deploy
 
-# Run the application
+# Copy the application source code
 COPY /src ./src
 
+# Expose port 8000 for the application
 EXPOSE 8000
 
+# Run the application using uvicorn
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
