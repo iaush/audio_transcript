@@ -1,5 +1,5 @@
 import os
-from src.models.transcription import Transcription, TranscriptionRead
+from src.models.transcription import Transcription, TranscriptionRead, TranscriptionFTS
 from src.database import get_db
 from transformers import pipeline
 from fastapi import UploadFile, File, Depends
@@ -12,7 +12,7 @@ import uuid
 from typing import List
 from fastapi import FastAPI, UploadFile, File, Depends
 from fastapi.staticfiles import StaticFiles
-
+from sqlalchemy import text
 
 transcriber = pipeline("automatic-speech-recognition", model="openai/whisper-tiny")
 
@@ -89,6 +89,16 @@ async def search_transcription(search_term: str, db: Session = Depends(get_db)) 
     except Exception as e:
         print(f"Error: {e}")
         raise e
+    
+async def search_transcriptions_fts(search_term: str, db: Session):
+    query = (
+        select(Transcription)
+        .join(TranscriptionFTS, Transcription.id == TranscriptionFTS.rowid)
+        .filter(TranscriptionFTS.file_name.match(search_term)) 
+    )
+    results = db.execute(query).scalars().all()
+    
+    return [row.to_dict() for row in results]
                 
 async def delete_transcription_path(upload_path: str, db: Session = Depends(get_db)):
     try:

@@ -63,6 +63,7 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
               accept="audio/*"
               className="upload-input"
               required
+              multiple
             />
           </div>
           <div className="input-divs">

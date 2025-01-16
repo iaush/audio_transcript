@@ -84,7 +84,8 @@ const Card = ({
           <div className="audio-container" style={{ width: "70%" }}>
             <h3>Transcription</h3>
             <div className="scroll-box">
-              <TextHighlighter text={text} searchTerm={searchTerm} />
+              {/* <TextHighlighter text={text} searchTerm={searchTerm} /> */}
+              <p>{text}</p>
             </div>
           </div>
         </div>

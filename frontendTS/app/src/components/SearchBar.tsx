@@ -12,7 +12,6 @@ interface HandleSearchEvent {
 }
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const handleSearch = (event: HandleSearchEvent) => {
     setSearchTerm(event.target.value);
     onSearch(event.target.value);

@@ -19,12 +19,38 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [reload, setReload] = useState(false);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const debounceDelay = 500;
 
   useEffect(() => {
-    if (searchTerm == "") {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, debounceDelay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (debouncedSearchTerm === "") {
       api.get("/transcriptions").then((response) => setItems(response.data));
     }
-  }, [searchTerm, reload]);
+  }, [debouncedSearchTerm, reload]);
+
+  useEffect(() => {
+    if (debouncedSearchTerm !== "") {
+      api
+        .get("/search", { params: { search_term: debouncedSearchTerm } })
+        .then((response) => setItems(response.data));
+    }
+  }, [debouncedSearchTerm]);
+
+  // useEffect(() => {
+  //   if (searchTerm == "") {
+  //     api.get("/transcriptions").then((response) => setItems(response.data));
+  //   }
+  // }, [searchTerm, reload]);
 
   // useEffect(() => {
   //   if (searchTerm !== "") {
@@ -34,23 +60,23 @@ function App() {
   //   }
   // }, [searchTerm]);
 
-  const debouncedSearch = useCallback(
-    Debounce((term: string) => {
-      api
-        .get("/search", { params: { search_term: term } })
-        .then((response) => setItems(response.data))
-        .catch((error) =>
-          console.error("Error fetching search results:", error)
-        );
-    }, 300),
-    []
-  );
+  // const debouncedSearch = useCallback(
+  //   Debounce((term: string) => {
+  //     api
+  //       .get("/search", { params: { search_term: term } })
+  //       .then((response) => setItems(response.data))
+  //       .catch((error) =>
+  //         console.error("Error fetching search results:", error)
+  //       );
+  //   }, 1000),
+  //   []
+  // );
 
-  useEffect(() => {
-    if (searchTerm !== "") {
-      debouncedSearch(searchTerm);
-    }
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   if (searchTerm !== "") {
+  //     debouncedSearch(searchTerm);
+  //   }
+  // }, [searchTerm]);
 
   let cardItems = items.map((item: Item) => {
     return (

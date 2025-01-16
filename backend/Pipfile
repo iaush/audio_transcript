@@ -16,6 +16,7 @@ ffmpeg-python = "*"
 pytest = "*"
 httpx = "*"
 pydantic-settings = "*"
+sqlalchemy-searchable = "*"
 
 [dev-packages]
 
