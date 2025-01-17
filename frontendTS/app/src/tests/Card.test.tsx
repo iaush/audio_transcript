@@ -2,9 +2,10 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Card from '../components/Card'
 
 test('renders Card component', () => {
+  const testSubtitle = "2025-01-17T12:00:00Z";
   render(<Card
     header="header"
-    subtitle="subtitleT"
+    subtitle={testSubtitle}
     upload_path="upload_path"
     text="text"
     searchTerm="searchTerm"
@@ -12,8 +13,9 @@ test('renders Card component', () => {
   />)
   const cardElement = screen.getByText(/header/i)
   expect(cardElement).toBeInTheDocument()
-  const cardElement2 = screen.getByText(/subtitle/i)
-  expect(cardElement2).toBeInTheDocument()
+  const formattedDate = new Date(testSubtitle).toLocaleString();
+  const cardSubtitle = screen.getByText(new RegExp(`Upload Date: ${formattedDate}`));
+  expect(cardSubtitle).toBeInTheDocument();
 })
 
 test('view card details', () => {

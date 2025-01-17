@@ -21,3 +21,14 @@ Instructions to run application:
 
 Instructions for unit testing:
 
+    Frontend:
+    - run "cd frontendTS\app"
+    - run "npm test"
+    
+    Backend:
+    - requires pytest to be installed 
+    - run "cd backend"
+    - run "pytest"
+
+
+
