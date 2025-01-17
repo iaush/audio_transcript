@@ -8,6 +8,7 @@ from pathlib import Path
 from src.config import settings
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from src.services.middleware import RateLimitter
 
 UPLOAD_DIR = settings.UPLOAD_DIR
 
@@ -25,6 +26,7 @@ def create_app():
         allow_methods=["*"],  
         allow_headers=["*"],  
     )
+    app.add_middleware(RateLimitter, max_requests=10, time_window=10)
     return app
 
 

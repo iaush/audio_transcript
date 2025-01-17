@@ -18,3 +18,6 @@ Instructions to run application:
             - run "cd backend"
             - run "pipenv install"
             - run "pipenv run uvicorn src.main:app"
+
+Instructions for unit testing:
+
