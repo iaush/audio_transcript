@@ -12,6 +12,8 @@ interface HandleSearchEvent {
 }
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // send the search term back to the parent component
   const handleSearch = (event: HandleSearchEvent) => {
     setSearchTerm(event.target.value);
     onSearch(event.target.value);

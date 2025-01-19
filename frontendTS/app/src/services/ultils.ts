@@ -1,3 +1,5 @@
+//debounce and throttle function to limit the number of times a function is called
+
 export const Throttle = (fn : Function, delay : number) => {
     let isAllowed = true;
     return function(...args :any){
@@ -8,6 +10,7 @@ export const Throttle = (fn : Function, delay : number) => {
         }
     }
 }
+
 
 export const Debounce = (fn : Function,delay : number) => {
     let prevEvent : any;

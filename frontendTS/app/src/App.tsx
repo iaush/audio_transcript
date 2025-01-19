@@ -23,7 +23,7 @@ function App() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const debounceDelay = 500;
 
-
+  // debounce the search term to avoid making too many requests
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -43,6 +43,7 @@ function App() {
     }
   }, [debouncedSearchTerm, reload]);
 
+  // retrieve the transcriptions from the backend and reload the page when the reload state changes
   useEffect(() => {
     if (debouncedSearchTerm !== "") {
       api
@@ -87,6 +88,7 @@ function App() {
   //   }
   // }, [searchTerm]);
 
+  // renders all the transcriptions as cards
   let cardItems = items?.map((item: Item) => {
     return (
       <Card

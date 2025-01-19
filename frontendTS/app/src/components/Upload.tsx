@@ -11,6 +11,7 @@ const Upload = ({ onClose, setReload }: UploadProps) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // handle the file upload for multiples files or single, filename taken as input (FILENAME) if multiple files are uploaded
   const handleSubmit = async () => {
     const files = (document.getElementById("file") as HTMLInputElement).files;
 

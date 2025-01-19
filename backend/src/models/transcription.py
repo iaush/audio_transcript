@@ -6,7 +6,7 @@ from src.database import Base, engine
 from typing import List, Optional
 from sqlalchemy.orm import relationship
 
-
+#pydantic model for transcription
 class Transcription(Base):
     __tablename__ = "transcriptions"
 
@@ -36,6 +36,7 @@ class Transcription(Base):
 
 #     transcriptions = relationship("Transcription", back_populates="fts_entry", primaryjoin="Transcription.id==TranscriptionFTS.rowid")
 
+#models for servicees
 class TranscriptionBase(BaseModel):
     file_name: Optional[str]
     transcription: str

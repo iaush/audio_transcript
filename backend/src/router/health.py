@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 router = APIRouter()
 
+#checl status of the service, will return error if service is down
 @router.get("/status")
 def health():
     return {"status": "ok"}

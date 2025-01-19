@@ -17,6 +17,7 @@ class RateLimitter(BaseHTTPMiddleware):
         client_ip = request.client.host
         current_time = time.time()
 
+        # Remove records older than time window
         self.rate_limit_records[client_ip] = [
             timestamp for timestamp in self.rate_limit_records[client_ip]
             if current_time - timestamp < self.time_window
